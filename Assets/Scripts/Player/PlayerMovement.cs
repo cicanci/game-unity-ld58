@@ -1,38 +1,43 @@
 using UnityEngine;
 using UnityEngine.InputSystem; // new Input System
 
-public class PlayerMovement : MonoBehaviour
+namespace Cicanci
 {
-    public float moveSpeed = 5f;
-    private Rigidbody2D rb;
-    private Vector2 moveInput;
-
-    private PlayerControls controls;
-
-    void Awake()
+    public class PlayerMovement : MonoBehaviour
     {
-        controls = new PlayerControls();
-    }
+        public float moveSpeed = 5f;
 
-    void OnEnable()
-    {
-        controls.Player.Enable();
-        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
-    }
+        private Rigidbody rb;
+        private Vector2 moveInput;
+        private PlayerControls controls;
 
-    void OnDisable()
-    {
-        controls.Player.Disable();
-    }
+        void Awake()
+        {
+            controls = new PlayerControls();
+        }
 
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
+        void OnEnable()
+        {
+            controls.Player.Enable();
+            controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+            controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+        }
 
-    void FixedUpdate()
-    {
-        rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
+        void OnDisable()
+        {
+            controls.Player.Disable();
+        }
+
+        void Start()
+        {
+            rb = GetComponent<Rigidbody>();
+        }
+
+        void FixedUpdate()
+        {
+            // Convert 2D input (x, y) into 3D movement (x, z)
+            Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
+            rb.MovePosition(rb.position + move * moveSpeed * Time.fixedDeltaTime);
+        }
     }
 }
