@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rigidbody;
     private Vector2 _input;
     private Coroutine _damageCoroutine;
+    private float _fullHealth;
 
     public static PlayerController Instance { get; private set; }
 
@@ -23,6 +24,9 @@ public class PlayerController : MonoBehaviour
         _controls = new InputControls();
         _rigidbody = GetComponent<Rigidbody>();
         _stats = GetComponent<BaseStats>();
+
+        _fullHealth = _stats.Health;
+        MessageQueue.Instance.SendMessage(new HealthUpdateMessage() { Amount = _fullHealth });
     }
 
     private void OnEnable()
@@ -47,13 +51,16 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.collider.CompareTag("Enemy"))
         {
-            Debug.Log($"OnCollisionEnter: {collision.collider.name}");
-            _damageCoroutine = StartCoroutine(DamageOverTime(collision.gameObject));
+            Debug.Log($"PlayerController.OnCollisionEnter: {collision.collider.name}");
+            _damageCoroutine = StartCoroutine(_stats.DamageOverTime(collision.gameObject));
         }
+
         if (collision.collider.CompareTag("Card"))
         {
-            Debug.Log($"OnCollisionEnter: {collision.collider.name}");
+            Debug.Log($"PlayerController.OnCollisionEnter: {collision.collider.name}");
             collision.gameObject.GetComponent<CardController>().PickUpCard();
+            // Restores player health when picking up any card
+            MessageQueue.Instance.SendMessage(new HealthUpdateMessage() { Amount = _fullHealth });
         }
     }
 
@@ -61,37 +68,8 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.collider.CompareTag("Enemy"))
         {
-            Debug.Log($"OnCollisionExit: {collision.collider.name}");
+            Debug.Log($"PlayerController.OnCollisionExit: {collision.collider.name}");
             StopDamageOverTime();
-        }
-    }
-
-    private IEnumerator DamageOverTime(GameObject other)
-    {
-        BaseStats otherStats = other.GetComponent<BaseStats>();
-
-        if (otherStats == null)
-        {
-            yield break;
-        }
-
-        Debug.Log($"DamageOverTime: {other.name}. Heath = {otherStats.Health}");
-
-        while (otherStats.Health > 0)
-        {
-            float multiplier = GetMultiplier(otherStats);
-
-            otherStats.Health -= _stats.Damage * multiplier;
-            Debug.Log($"DamageOverTime: {other.name} tooke {_stats.Damage} damage with {multiplier}x multiplier. Heath = {otherStats.Health}");
-
-            if (otherStats.Health <= 0)
-            {
-                Debug.Log($"DamageOverTime: {other.name} is dead.");
-                other.GetComponent<EnemyController>().DropLoot();
-                yield break;
-            }
-
-            yield return new WaitForSeconds(otherStats.AttackCooldown);
         }
     }
 
@@ -102,36 +80,5 @@ public class PlayerController : MonoBehaviour
             StopCoroutine(_damageCoroutine);
             _damageCoroutine = null;
         }
-    }
-
-    private float GetMultiplier(BaseStats other)
-    {
-        if (_stats.Attributes.HasFlag(AttributeTypes.FireAttack))
-        {
-            if (other.Attributes.HasFlag(AttributeTypes.FireResistence))
-            {
-                return 0.5f;
-            }
-
-            if (other.Attributes.HasFlag(AttributeTypes.IceResistence))
-            {
-                return 2f;
-            }
-        }
-
-        if (_stats.Attributes.HasFlag(AttributeTypes.IceAttack))
-        {
-            if (other.Attributes.HasFlag(AttributeTypes.IceResistence))
-            {
-                return 0.5f;
-            }
-
-            if (other.Attributes.HasFlag(AttributeTypes.FireResistence))
-            {
-                return 2f;
-            }
-        }
-
-        return 1f;
     }
 }

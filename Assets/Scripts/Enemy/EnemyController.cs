@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour
     private CardType _dropCard;
 
     private BaseStats _stats;
+    private Coroutine _damageCoroutine;
 
     private void Awake()
     {
@@ -31,5 +32,32 @@ public class EnemyController : MonoBehaviour
             PlayerController.Instance.transform.position,
             _stats.MovementSpeed * Time.deltaTime
         );
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Player"))
+        {
+            Debug.Log($"EnemyController.OnCollisionEnter: {collision.collider.name}");
+            _damageCoroutine = StartCoroutine(_stats.DamageOverTime(collision.gameObject));
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.CompareTag("Player"))
+        {
+            Debug.Log($"EnemyController.OnCollisionExit: {collision.collider.name}");
+            StopDamageOverTime();
+        }
+    }
+
+    private void StopDamageOverTime()
+    {
+        if (_damageCoroutine != null)
+        {
+            StopCoroutine(_damageCoroutine);
+            _damageCoroutine = null;
+        }
     }
 }

@@ -1,11 +1,22 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField]
     private TMP_Text _inventoryLabel;
+
+    [SerializeField]
+    private TMP_Text _playerHealth;
+
+    [SerializeField]
+    private GameObject _gameOverPopup;
+
+    [SerializeField]
+    private TMP_Text _gameOverText;
 
     private readonly string _inventoryTemplate = "Cards\nFire: {0}\nIce: {1}";
     private readonly Dictionary<CardType, int> _inventory = new()
@@ -22,11 +33,15 @@ public class InventoryManager : MonoBehaviour
     private void OnEnable()
     {
         MessageQueue.Instance.AddListener<CardPickedUpMessage>(OnCardPickedUp);
+        MessageQueue.Instance.AddListener<GameOverMessage>(OnGameOver);
+        MessageQueue.Instance.AddListener<HealthUpdateMessage>(OnHealthUpdated);
     }
 
     private void OnDisable()
     {
         MessageQueue.Instance.RemoveListener<CardPickedUpMessage>(OnCardPickedUp);
+        MessageQueue.Instance.RemoveListener<GameOverMessage>(OnGameOver);
+        MessageQueue.Instance.RemoveListener<HealthUpdateMessage>(OnHealthUpdated);
     }
 
     private void OnCardPickedUp(CardPickedUpMessage message)
@@ -38,9 +53,27 @@ public class InventoryManager : MonoBehaviour
         UpdateUI();
     }
 
+    private void OnGameOver(GameOverMessage message)
+    {
+        _gameOverPopup.SetActive(true);
+        _gameOverText.text = string.Format(_gameOverText.text, 
+            _inventory[CardType.Fire] + _inventory[CardType.Ice]);
+        Time.timeScale = 0;
+    }
+
+    private void OnHealthUpdated(HealthUpdateMessage message)
+    {
+        _playerHealth.text = $"HP :{message.Amount}";
+    }
+
     private void UpdateUI()
     {
         _inventoryLabel.text = string.Format(_inventoryTemplate, 
             _inventory[CardType.Fire], _inventory[CardType.Ice]);
+    }
+
+    public void PlayAgainButton()
+    {
+        SceneManager.LoadScene(0);
     }
 }
