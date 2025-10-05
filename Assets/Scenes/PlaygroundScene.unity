@@ -791,6 +791,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnComponent
   _spawnRate: 0
   _manualTrigger: 1
+  _spawnPoints:
+  - {x: 5.5, y: 0, z: 3.5}
+  - {x: 5.5, y: 0, z: 0}
+  - {x: 5.5, y: 0, z: -3.5}
+  - {x: 0, y: 0, z: 3.5}
+  - {x: 0, y: 0, z: -3.5}
+  - {x: -5.5, y: 0, z: 3.5}
+  - {x: -5.5, y: 0, z: 0}
+  - {x: -5.5, y: 0, z: -3.5}
 --- !u!114 &562750249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -854,6 +863,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnComponent
   _spawnRate: 30
   _manualTrigger: 0
+  _spawnPoints:
+  - {x: 5.5, y: 0, z: 3.5}
+  - {x: 5.5, y: 0, z: 0}
+  - {x: 5.5, y: 0, z: -3.5}
+  - {x: 0, y: 0, z: 3.5}
+  - {x: 0, y: 0, z: -3.5}
+  - {x: -5.5, y: 0, z: 3.5}
+  - {x: -5.5, y: 0, z: 0}
+  - {x: -5.5, y: 0, z: -3.5}
 --- !u!114 &620392107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1044,6 +1062,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnComponent
   _spawnRate: 0
   _manualTrigger: 1
+  _spawnPoints:
+  - {x: 5.5, y: 0, z: 3.5}
+  - {x: 5.5, y: 0, z: 0}
+  - {x: 5.5, y: 0, z: -3.5}
+  - {x: 0, y: 0, z: 3.5}
+  - {x: 0, y: 0, z: -3.5}
+  - {x: -5.5, y: 0, z: 3.5}
+  - {x: -5.5, y: 0, z: 0}
+  - {x: -5.5, y: 0, z: -3.5}
 --- !u!114 &696786892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1923,6 +1950,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnComponent
   _spawnRate: 15
   _manualTrigger: 0
+  _spawnPoints:
+  - {x: 5.5, y: 0, z: 3.5}
+  - {x: 5.5, y: 0, z: 0}
+  - {x: 5.5, y: 0, z: -3.5}
+  - {x: 0, y: 0, z: 3.5}
+  - {x: 0, y: 0, z: -3.5}
+  - {x: -5.5, y: 0, z: 3.5}
+  - {x: -5.5, y: 0, z: 0}
+  - {x: -5.5, y: 0, z: -3.5}
 --- !u!114 &1922991629
 MonoBehaviour:
   m_ObjectHideFlags: 0

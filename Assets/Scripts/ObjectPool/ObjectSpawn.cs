@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [RequireComponent(typeof(ObjectPool))]
 public class ObjectSpawn : MonoBehaviour
@@ -8,6 +9,19 @@ public class ObjectSpawn : MonoBehaviour
 
     [SerializeField]
     private bool _manualTrigger;
+
+    [SerializeField]
+    private List<Vector3> _spawnPoints = new()
+    {
+        new Vector3(5.5f, 0, 3.5f),
+        new Vector3(5.5f, 0, 0),
+        new Vector3(5.5f, 0, -3.5f),
+        new Vector3(0, 0, 3.5f),
+        new Vector3(0, 0, -3.5f),
+        new Vector3(-5.5f, 0, 3.5f),
+        new Vector3(-5.5f, 0, 0),
+        new Vector3(-5.5f, 0, -3.5f),
+    };
 
     private float _spawnTimer;
     private ObjectPool _poolComponent;
@@ -33,6 +47,8 @@ public class ObjectSpawn : MonoBehaviour
     public GameObject SpawnObject()
     {
         _spawnTimer = Time.time + _spawnRate;
-        return _poolComponent.GetItem();
+        var obj = _poolComponent.GetItem();
+        obj.transform.position = _spawnPoints[Random.Range(0, _spawnPoints.Count)];
+        return obj;
     }
 }
