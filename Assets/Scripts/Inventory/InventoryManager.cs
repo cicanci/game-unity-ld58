@@ -74,6 +74,7 @@ public class InventoryManager : MonoBehaviour
 
     public void PlayAgainButton()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }
 }

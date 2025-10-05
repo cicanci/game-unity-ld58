@@ -1151,7 +1151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f7b6108f7197fd42a2368600a3925cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnComponent
-  _spawnRate: 30
+  _spawnRate: 10
   _manualTrigger: 0
   _spawnPoints:
   - {x: 5.5, y: 0, z: 3.5}
@@ -2586,7 +2586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f7b6108f7197fd42a2368600a3925cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnComponent
-  _spawnRate: 15
+  _spawnRate: 5
   _manualTrigger: 0
   _spawnPoints:
   - {x: 5.5, y: 0, z: 3.5}
