@@ -11,8 +11,15 @@ public class PlayerController : MonoBehaviour
     private Vector2 _input;
     private Coroutine _damageCoroutine;
 
+    public static PlayerController Instance { get; private set; }
+
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
         _controls = new InputControls();
         _rigidbody = GetComponent<Rigidbody>();
         _stats = GetComponent<BaseStats>();
@@ -42,6 +49,11 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log($"OnCollisionEnter: {collision.collider.name}");
             _damageCoroutine = StartCoroutine(DamageOverTime(collision.gameObject));
+        }
+        if (collision.collider.CompareTag("Card"))
+        {
+            Debug.Log($"OnCollisionEnter: {collision.collider.name}");
+            collision.gameObject.GetComponent<CardController>().PickUpCard();
         }
     }
 
@@ -75,7 +87,7 @@ public class PlayerController : MonoBehaviour
             if (otherStats.Health <= 0)
             {
                 Debug.Log($"DamageOverTime: {other.name} is dead.");
-                Destroy(other);
+                other.GetComponent<EnemyController>().DropLoot();
                 yield break;
             }
 
@@ -100,11 +112,16 @@ public class PlayerController : MonoBehaviour
             {
                 return 0.5f;
             }
+
+            if (other.Attributes.HasFlag(AttributeTypes.IceResistence))
+            {
+                return 2f;
+            }
         }
 
-        if (_stats.Attributes.HasFlag(AttributeTypes.WaterAttack))
+        if (_stats.Attributes.HasFlag(AttributeTypes.IceAttack))
         {
-            if (other.Attributes.HasFlag(AttributeTypes.WaterResistence))
+            if (other.Attributes.HasFlag(AttributeTypes.IceResistence))
             {
                 return 0.5f;
             }
