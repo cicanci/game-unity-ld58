@@ -2796,7 +2796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6234f0f7e13935244ab84374e1af0fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseStats
-  Health: 3
+  Health: 5
   Damage: 1
   AttackCooldown: 2
   MovementSpeed: 5

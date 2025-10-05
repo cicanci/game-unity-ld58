@@ -157,7 +157,7 @@ MonoBehaviour:
   Health: 3
   Damage: 1
   AttackCooldown: 3
-  MovementSpeed: 1.5
+  MovementSpeed: 0.5
   Attributes: 0
 --- !u!114 &422101549942979761
 MonoBehaviour:
