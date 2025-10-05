@@ -9,6 +9,7 @@ public class CameraShake : MonoBehaviour
     [SerializeField]
     private float _shakeDuration;
 
+    private float _shakeCounter;
     private Vector3 _originalPos;
     private Coroutine _shakeCameraCoroutine;
 
@@ -38,19 +39,20 @@ public class CameraShake : MonoBehaviour
 
     private IEnumerator ShakeCameraCoroutine()
     {
-        while (_shakeDuration > 0)
+        while (_shakeCounter > 0)
         {
             yield return null;
             transform.localPosition = _originalPos + Random.insideUnitSphere * _shakeIntensity;
-            _shakeDuration -= Time.deltaTime;
+            _shakeCounter -= Time.deltaTime;
         }
 
-        _shakeDuration = 0;
+        _shakeCounter = 0;
         transform.localPosition = _originalPos;
     }
 
     private void OnHealthUpdated(HealthUpdateMessage message)
     {
+        _shakeCounter = _shakeDuration;
         ShakeCamera();
     }
 }

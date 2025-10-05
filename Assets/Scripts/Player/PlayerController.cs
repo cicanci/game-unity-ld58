@@ -59,7 +59,9 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log($"PlayerController.OnCollisionEnter: {collision.collider.name}");
             collision.gameObject.GetComponent<CardController>().PickUpCard();
+
             // Restores player health when picking up any card
+            _stats.Health = _fullHealth;
             MessageQueue.Instance.SendMessage(new HealthUpdateMessage() { Amount = _fullHealth });
         }
     }

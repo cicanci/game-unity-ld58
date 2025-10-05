@@ -36,6 +36,11 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
         if (collision.collider.CompareTag("Player"))
         {
             Debug.Log($"EnemyController.OnCollisionEnter: {collision.collider.name}");

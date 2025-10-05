@@ -478,7 +478,7 @@ MonoBehaviour:
   _inventoryLabel: {fileID: 305950681}
   _playerHealth: {fileID: 1688910469}
   _gameOverPopup: {fileID: 807945443}
-  _gameOverText: {fileID: 0}
+  _gameOverText: {fileID: 1704704364}
 --- !u!4 &285242206
 Transform:
   m_ObjectHideFlags: 0
